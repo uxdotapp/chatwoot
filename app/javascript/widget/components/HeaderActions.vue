@@ -1,14 +1,6 @@
 <template>
   <div v-if="showHeaderActions" class="actions flex items-center">
     <button
-      v-if="conversationStatus === 'open'"
-      class="button transparent compact"
-      :title="$t('END_CONVERSATION')"
-      @click="resolveConversation"
-    >
-      <fluent-icon icon="sign-out" size="22" class="text-black-900" />
-    </button>
-    <button
       v-if="showPopoutButton"
       class="button transparent compact new-window--button "
       @click="popoutWindow"
