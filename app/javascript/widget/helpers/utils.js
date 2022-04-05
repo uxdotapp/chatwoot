@@ -10,8 +10,13 @@ export const arrayToHashById = array =>
     return newMap;
   }, {});
 
+let defaultIFrameConfig = {
+  showUnreadBubbles: false,
+  startConversationAlwaysRightFromStart: true
+};
 export const IFrameHelper = {
   isIFrame: () => window.self !== window.top,
+  IFrameConfig: defaultIFrameConfig,
   sendMessage: msg => {
     window.parent.postMessage(
       `chatwoot-widget:${JSON.stringify({ ...msg })}`,
