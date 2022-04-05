@@ -40,6 +40,9 @@ export default {
     isIframe() {
       return IFrameHelper.isIFrame();
     },
+    IFrameConfig() {
+      return IFrameHelper.IFrameConfig();
+    },
     isRNWebView() {
       return RNHelper.isRNWebView();
     },
