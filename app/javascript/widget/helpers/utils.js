@@ -12,7 +12,7 @@ export const arrayToHashById = array =>
 
 let defaultIFrameConfig = {
   showUnreadBubbles: false,
-  startConversationAlwaysRightFromStart: true
+  startConversationAlwaysRightFromStart: true,
 };
 export const IFrameHelper = {
   isIFrame: () => window.self !== window.top,
