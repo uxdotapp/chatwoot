@@ -24,7 +24,7 @@
         />
         <chat-header
           v-if="isHeaderCollapsed"
-          :title="channelConfig.websiteName"
+          :title="headerChatTitle"
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
@@ -69,9 +69,21 @@ export default {
   },
   computed: {
     ...mapGetters({
+      allAgents: 'agent/allAgents',
       availableAgents: 'agent/availableAgents',
       appConfig: 'appConfig/getAppConfig',
     }),
+    headerChatTitle() {
+      let chatTitle = this.channelConfig.websiteName;
+      let firstAgent = null;
+      if (this.allAgents && this.allAgents.length > 0) {
+        firstAgent = this.allAgents[0];
+        if (firstAgent) {
+          chatTitle = firstAgent.name;
+        }
+      }
+      return chatTitle;
+    },
     isHeaderCollapsed() {
       if (!this.hasIntroText) {
         return true;

@@ -16,7 +16,7 @@ let defaultIFrameConfig = {
 };
 export const IFrameHelper = {
   isIFrame: () => window.self !== window.top,
-  IFrameConfig: defaultIFrameConfig,
+  IFrameConfig: () => defaultIFrameConfig,
   sendMessage: msg => {
     window.parent.postMessage(
       `chatwoot-widget:${JSON.stringify({ ...msg })}`,

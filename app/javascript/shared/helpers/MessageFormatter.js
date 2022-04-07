@@ -11,6 +11,7 @@ const TWITTER_HASH_REPLACEMENT =
   '$1<a href="https://twitter.com/hashtag/$2" target="_blank" rel="noreferrer nofollow noopener">#$2</a>';
 
 const USER_MENTIONS_REGEX = /mention:\/\/(user|team)\/(\d+)\/(.+)/gm;
+const ACTION_MENTIONS_REGEX = /(action|uxapp-action):\/\/([\w_-]+(?:(?:\.[\w_-]+)?))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
 
 class MessageFormatter {
   constructor(message, isATweet = false) {
@@ -24,8 +25,13 @@ class MessageFormatter {
       },
       link(url, title, text) {
         const mentionRegex = new RegExp(USER_MENTIONS_REGEX);
+        const actionsRegex = new RegExp(ACTION_MENTIONS_REGEX);
         if (url.match(mentionRegex)) {
           return `<span class="prosemirror-mention-node">${text}</span>`;
+        }
+        if (url.match(actionsRegex)) {
+          return `<a rel="noreferrer noopener nofollow" data-action-url="${url}" href="${url}" class="link custom-action-link" title="${title ||
+            ''}">${text}</a>`;
         }
         return `<a rel="noreferrer noopener nofollow" href="${url}" class="link" title="${title ||
           ''}" target="_blank">${text}</a>`;
