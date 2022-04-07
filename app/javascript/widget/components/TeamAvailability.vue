@@ -1,5 +1,5 @@
 <template>
-  <div class="px-5">
+  <div v-if="doNotShowFromStart" class="px-5">
     <div class="flex items-center justify-between mb-4">
       <div class="text-black-700">
         <div class="text-base leading-5 font-medium mb-1">
@@ -55,8 +55,13 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      doNotShowFromStart: true,
+    };
+  },
   computed: {
-    isIframe() {
+    isIFrame() {
       return IFrameHelper.isIFrame();
     },
     IFrameConfig() {
@@ -93,6 +98,8 @@ export default {
       this.IFrameConfig.startConversationAlwaysRightFromStart
     ) {
       this.startConversation();
+    } else {
+      this.doNotShowFromStart = false;
     }
   },
   methods: {

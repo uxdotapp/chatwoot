@@ -7,7 +7,7 @@
   </div>
   <div
     v-else
-    class="flex flex-col justify-end h-full"
+    class="flex flex-col justify-end h-full wootwidget-wrapper"
     :class="{
       'is-mobile': isMobile,
       'is-widget-right': isRightAligned,
@@ -80,6 +80,26 @@ export default {
     },
   },
   mounted() {
+    this.livewatchForClickEvents(
+      'click',
+      '.wootwidget-wrapper .conversation--container a.custom-action-link',
+      event => {
+        // alert('clicked');
+        let url = event.target.dataset.actionUrl;
+        let urlHack = document.createElement('a');
+        urlHack.href = 'http://www.mymainsite.com/somepath/path2/path3/path4';
+        IFrameHelper.sendMessage({
+          event: 'chatlink-action',
+          linkLabel: event.target.innerHTML,
+          labelUrl: url,
+          actionInfo: {
+            actionType: urlHack.hostname,
+            parts: urlHack.pathname.split('/'),
+            actionProtocol: urlHack.protocol,
+          },
+        });
+      }
+    );
     const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
     this.setLocale(locale);
     this.setWidgetColor(widgetColor);
@@ -102,6 +122,25 @@ export default {
     this.registerCampaignEvents();
   },
   methods: {
+    livewatchForClickEvents(eventType, elementQuerySelector, cb) {
+      document.addEventListener(eventType, event => {
+        let qs = document.querySelectorAll(elementQuerySelector);
+
+        if (qs) {
+          let el = event.target;
+          let index = -1;
+          // eslint-disable-next-line no-cond-assign
+          while (el && (index = Array.prototype.indexOf.call(qs, el)) === -1) {
+            el = el.parentElement;
+          }
+
+          if (index > -1) {
+            cb.call(el, event);
+          }
+        }
+      });
+    },
+
     ...mapActions('appConfig', [
       'setAppConfig',
       'setReferrerHost',

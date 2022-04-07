@@ -112,7 +112,7 @@ export default {
     },
     agentName() {
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
-        return 'Bot';
+        return 'Pure Romance Bot';
       }
       if (this.message.sender) {
         return this.message.sender.available_name || this.message.sender.name;
