@@ -14,8 +14,9 @@ const USER_MENTIONS_REGEX = /mention:\/\/(user|team)\/(\d+)\/(.+)/gm;
 const ACTION_MENTIONS_REGEX = /(action|uxapp-action):\/\/([\w_-]+(?:(?:\.[\w_-]+)?))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
 
 class MessageFormatter {
-  constructor(message, isATweet = false) {
+  constructor(message, isATweet = false, isAPrivateNote = false) {
     this.message = DOMPurify.sanitize(escapeHtml(message || ''));
+    this.isAPrivateNote = isAPrivateNote;
     this.isATweet = isATweet;
     this.marked = marked;
 
@@ -41,7 +42,7 @@ class MessageFormatter {
   }
 
   formatMessage() {
-    if (this.isATweet) {
+    if (this.isATweet && !this.isAPrivateNote) {
       const withUserName = this.message.replace(
         TWITTER_USERNAME_REGEX,
         TWITTER_USERNAME_REPLACEMENT

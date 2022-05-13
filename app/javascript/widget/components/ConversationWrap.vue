@@ -114,6 +114,7 @@ export default {
   flex-direction: column;
   flex: 1;
   overflow-y: auto;
+  color-scheme: light dark;
 }
 
 .conversation-wrap {
