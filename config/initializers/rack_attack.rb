@@ -40,7 +40,7 @@ class Rack::Attack
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
 
-  throttle('req/ip', limit: 300, period: 1.minute, &:ip)
+  throttle('req/ip', limit: 1000, period: 1.minute, &:ip)
 
   ### Prevent Brute-Force Login Attacks ###
   throttle('login/ip', limit: 5, period: 20.seconds) do |req|
@@ -53,7 +53,7 @@ class Rack::Attack
   end
 
   ## Prevent Conversation Bombing on Widget APIs ###
-  throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req|
+  throttle('api/v1/widget/conversations', limit: 100, period: 12.hours) do |req|
     req.ip if req.path == '/api/v1/widget/conversations' && req.post?
   end
 
